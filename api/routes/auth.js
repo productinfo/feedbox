@@ -6,10 +6,10 @@ const crypto = require('crypto')
 const nodeMailer = require('nodemailer')
 const mg = require('nodemailer-mailgun-transport')
 const EmailTemplate = require('email-templates')
-const path = require('path')
 
 const router = Router()
 
+// Mailgun Auth
 const auth = {
   auth: {
     api_key: process.env.MAILGUN_KEY,
@@ -17,6 +17,7 @@ const auth = {
   }
 }
 
+// Mailgun transport
 const nodemailerMailgun = nodeMailer.createTransport(mg(auth))
 
 // Generate Token
@@ -117,7 +118,7 @@ router.post('/forgot', function (req, res, next) {
           msg: 'Email not found in database'
         })
       }
-      const token = crypto.createHmac('sha256', process.env.JWT_SECRET).update(req.body.email).digest('hex')
+      const token = crypto.randomBytes(10).toString('hex')
       user.set('passwordResetToken', token)
       user.set('passwordResetExpires', dayjs().add(2, 'hours').unix())
       user.save()
@@ -156,9 +157,51 @@ router.post('/forgot', function (req, res, next) {
     })
 })
 
-// Reset user's password
-router.post('/reset/:token', function(req, res) {
+// Reset Token check
+router.get('/reset/:token', function (req, res) {
+  User.query(function (qb) {
+    qb.where('passwordResetToken', req.params.token)
+      .andWhere('passwordResetExpires', '>', dayjs().unix())
+  }).fetch()
+    .then(function (user) {
+      if (!user) {
+        return res.status(400).send({
+          msg: 'Reset password token expired'
+        })
+      }
+      return res.status(200).send({
+        msg: 'Password token is valid'
+      })
+    })
+})
 
+// Reset user's password
+router.post('/reset/:token', function (req, res) {
+  req.assert('email', 'Email cannot be blank').notEmpty()
+  req.assert('email', 'Email is not valid').isEmail()
+
+  const errors = req.validationErrors()
+
+  if (errors) {
+    return res.status(400).send(errors)
+  }
+
+  User.query(function (qb) {
+    qb.where('passwordResetToken', req.params.token)
+      .andWhere('passwordResetExpires','>', dayjs.unix())
+  }).fetch()
+    .then(function (user) {
+      if (!user) {
+        return res.status(400).send({
+          msg: 'Reset password token expired'
+        })
+      }
+
+      user.set('password', req.body.password)
+      user.set('passwordResetToken', null)
+      user.set('passwordResetExpires', null)
+      user.save()
+    })
 })
 
 module.exports = router
