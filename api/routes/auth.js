@@ -188,7 +188,7 @@ router.post('/reset/:token', function (req, res) {
 
   User.query(function (qb) {
     qb.where('passwordResetToken', req.params.token)
-      .andWhere('passwordResetExpires','>', dayjs.unix())
+      .andWhere('passwordResetExpires', '>', dayjs().unix())
   }).fetch()
     .then(function (user) {
       if (!user) {
@@ -201,6 +201,10 @@ router.post('/reset/:token', function (req, res) {
       user.set('passwordResetToken', null)
       user.set('passwordResetExpires', null)
       user.save()
+   
+      return res.status(200).send({
+        msg: 'Password updated successfully'
+      })
     })
 })
 
