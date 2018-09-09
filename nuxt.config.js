@@ -27,6 +27,7 @@ module.exports = {
   ** Add axios globally
   */
   build: {
+    extractCSS: true,
     vendor: ['axios'],
     /*
     ** Run ESLINT on save
@@ -45,5 +46,14 @@ module.exports = {
   serverMiddleware: [
     // API middleware
     '~/api/index.js'
-  ]
+  ],
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { propertyName: 'token.accessToken' }
+        }
+      }
+    }
+  }
 }
