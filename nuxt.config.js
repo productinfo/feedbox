@@ -17,6 +17,12 @@ module.exports = {
   ** Global CSS
   */
   css: ['~/assets/css/main.css'],
+  modules: [
+    '@nuxtjs/dotenv',
+    '@nuxtjs/axios',
+    '@nuxtjs/auth',
+    '@nuxtjs/pwa'
+  ],
   /*
   ** Add axios globally
   */
