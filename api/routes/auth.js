@@ -31,7 +31,7 @@ const generateToken = function (user) {
   return jwt.sign(payload, process.env.JWT_SECRET)
 }
 
-// Login 
+// Login
 router.post('/login', function (req, res, next) {
   req.assert('email', 'Email is not valid').isEmail()
   req.assert('email', 'Email cannot be blank').notEmpty()
@@ -64,7 +64,7 @@ router.post('/login', function (req, res, next) {
     })
 })
 
-// Register User 
+// Register User
 router.post('/register', function (req, res, next) {
   req.assert('name', 'Name cannot be blank').notEmpty()
   req.assert('email', 'Email is not valid').isEmail()
@@ -176,8 +176,8 @@ router.get('/reset/:token', function (req, res) {
 
 // Reset user's password
 router.post('/reset/:token', function (req, res) {
-  req.assert('email', 'Email cannot be blank').notEmpty()
-  req.assert('email', 'Email is not valid').isEmail()
+  req.assert('password', 'Password cannot be blank').notEmpty()
+  req.assert('password', 'Password must be at least 6 characters long').len(6)
 
   const errors = req.validationErrors()
 

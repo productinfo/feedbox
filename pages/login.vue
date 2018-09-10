@@ -64,7 +64,11 @@ export default {
         }
       })
         .catch(e => {
-          this.error = e.response.data.msg
+          if (e.response.data.msg) {
+            this.error = e.response.data.msg
+          } else {
+            this.error = e.response.data
+          }
         })
     }
   }

@@ -14,15 +14,16 @@
 </template>
 
 <script>
-import axios from '~/plugins/axios'
-
 export default {
   middleware: ['auth'],
+  layout (context) {
+    return 'default'
+  },
   name: 'id',
-  asyncData ({ params, error }) {
-    return axios.get('/api/users/' + params.id)
+  asyncData ({ app, params, error }) {
+    return app.$axios.$get('/api/users/' + params.id)
       .then((res) => {
-        return { user: res.data }
+        return { user: res }
       })
       .catch((e) => {
         error({ statusCode: 404, message: 'User not found' })

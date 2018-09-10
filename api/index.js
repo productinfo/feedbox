@@ -32,7 +32,7 @@ app.use(
       '/api/register',
       '/api/login',
       '/api/forgot',
-      '/api/reset/:token'
+      /^\/api\/reset\/.*/
     ]
   })
 )

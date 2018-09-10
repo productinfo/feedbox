@@ -17,6 +17,9 @@
 <script>
 export default {
   middleware: ['auth'],
+  layout (context) {
+    return 'default'
+  },
   async asyncData ({ app }) {
     let { data } = await app.$axios.get('/api/users')
     return { users: data }
