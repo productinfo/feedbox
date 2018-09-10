@@ -3,27 +3,26 @@
       <div class="row justify-content-center">
         <div class="col-xl-5 col-lg-6 col-md-7">
           <div class="text-center">
-            <h1 class="h2">Welcome Back 👋</h1>
-            <p class="lead">Log in to your account to continue</p>
-            <div class="alert alert-danger" role="alert" v-if="error">
-              {{ error }}
-            </div>
-            <form v-on:submit.prevent="login">
+            <h1 class="h2">Create account</h1>
+            <p class="lead">Create account to start reading news</p>
+            <form v-on:submit.prevent="register">
+              <div class="form-group">
+                <input class="form-control" type="text" placeholder="Name" v-model="user.name">
+              </div>
               <div class="form-group">
                 <input class="form-control" type="email" placeholder="Email" v-model="user.email">
               </div>
               <div class="form-group">
                 <input class="form-control" type="password" placeholder="Password" v-model="user.password">
-                <div class="text-right mt-2">
+                <div class="text-left mt-2">
                   <small>
-                    <nuxt-link to="/forgot">Forgot password?</nuxt-link>
+                    Your password should be at least 8 characters
                   </small>
                 </div>
               </div>
-              <button class="btn btn-md btn-block btn-primary mb-2" role="button" type="submit" @click="login">Log in</button>
+              <button class="btn btn-md btn-block btn-primary mb-2" role="button" type="submit">Create account</button>
               <small>
-                Don't have an account yet?
-                <nuxt-link to="/register">Create one</nuxt-link>
+                By clicking 'Create Account' you agree to our <a href="#">Terms of Use</a>
               </small>
             </form>
           </div>
@@ -38,24 +37,25 @@ export default {
   },
   data () {
     return {
+      error: null,
       user: {
+        name: null,
         email: null,
         password: null
-      },
-      error: null
-    }
-  },
-  computed: {
-    redirect () {
-      return (
-        this.$route.query.redirect &&
-        decodeURIComponent(this.$route.query.redirect)
-      )
+      }
     }
   },
   methods: {
-    login () {
-      this.error = null
+    register () {
+      this.$axios.$post('/api/register', {
+        name: this.user.name,
+        email: this.user.email,
+        password: this.user.password
+      })
+        .catch(e => {
+          this.error = e.response.data.msg
+          return
+        })
 
       return this.$auth.loginWith('local', {
         data: {
@@ -63,9 +63,6 @@ export default {
           password: this.user.password
         }
       })
-        .catch(e => {
-          this.error = e.response.data.msg
-        })
     }
   }
 }

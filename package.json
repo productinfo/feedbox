@@ -20,6 +20,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "bookshelf": "^0.13.3",
+    "bootstrap-vue": "^2.0.0-rc.11",
     "cookie-parser": "^1.4.3",
     "cross-env": "^5.0.1",
     "dayjs": "^1.7.5",
@@ -46,6 +47,8 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "eslint-plugin-standard": "^3.0.1",
+    "node-sass": "^4.9.3",
+    "sass-loader": "^7.1.0"
   }
 }

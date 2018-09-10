@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 // Update with your config settings.
 
 module.exports = {
@@ -11,6 +13,7 @@ module.exports = {
       password: process.env.DB_PASSWORD
     },
     migrations: {
+      directory: './api/migrations',
       tableName: 'migrations'
     }
   },
@@ -24,6 +27,7 @@ module.exports = {
       password: process.env.DB_PASSWORD
     },
     migrations: {
+      directory: './api/migrations',
       tableName: 'migrations'
     }
   },
@@ -37,6 +41,7 @@ module.exports = {
       password: process.env.DB_PASSWORD
     },
     migrations: {
+      directory: './api/migrations',
       tableName: 'migrations'
     }
   }

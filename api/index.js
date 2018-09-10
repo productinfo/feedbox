@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser')
 const jwt = require('express-jwt')
 const expressValidator = require('express-validator')
 const dotenv = require('dotenv')
-dotenv.load()
+dotenv.config()
 
 // Create express instnace
 const app = express()
@@ -25,14 +25,14 @@ const auth = require('./routes/auth')
 
 // JWT middleware
 app.use(
-  '/api',
   jwt({
-    secret: 'dummy'
+    secret: process.env.JWT_SECRET
   }).unless({
     path: [
       '/api/register',
       '/api/login',
-      '/api/proxy'
+      '/api/forgot',
+      '/api/reset/:token'
     ]
   })
 )
@@ -40,6 +40,12 @@ app.use(
 // Import API Routes
 app.use(users)
 app.use(auth)
+
+// Error handler
+app.use((err, req, res, next) => {
+  console.error(err) // eslint-disable-line no-console
+  res.status(401).send(err + '')
+})
 
 // Export the server middleware
 module.exports = {

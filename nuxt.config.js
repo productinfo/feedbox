@@ -3,11 +3,11 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'starter',
+    title: 'Feedbox',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Nuxt.js project' }
+      { hid: 'description', name: 'description', content: 'Simple news reader app' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -18,17 +18,27 @@ module.exports = {
   */
   css: ['~/assets/css/main.css'],
   modules: [
+    'bootstrap-vue/nuxt',
     '@nuxtjs/dotenv',
     '@nuxtjs/axios',
     '@nuxtjs/auth',
     '@nuxtjs/pwa'
   ],
+  axios: {
+    proxy: true
+  },
+  proxy: {
+    '/api': 'http://localhost:3000'
+  },
   /*
   ** Add axios globally
   */
   build: {
-    extractCSS: true,
     vendor: ['axios'],
+    minify: {
+      minifyCSS: true,
+      minifyJS: true
+    },
     /*
     ** Run ESLINT on save
     */
@@ -51,7 +61,9 @@ module.exports = {
     strategies: {
       local: {
         endpoints: {
-          login: { propertyName: 'token.accessToken' }
+          login: { url: '/api/login', method: 'post', propertyName: 'token' },
+          logout: { url: '/api/logout', method: 'post' },
+          user: { url: '/api/user', method: 'get', propertyName: 'user' }
         }
       }
     }

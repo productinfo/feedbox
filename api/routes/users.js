@@ -9,6 +9,12 @@ const users = [
   { name: 'Sébastien' }
 ]
 
+router.get('/user', function (req, res, next) {
+  res.json({
+    user: req.user
+  })
+})
+
 /* GET users listing. */
 router.get('/users', function (req, res, next) {
   res.json(users)

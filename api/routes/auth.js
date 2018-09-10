@@ -53,12 +53,12 @@ router.post('/login', function (req, res, next) {
         })
       }
       user.comparePassword(req.body.password, function (err, isMatch) {
+        if (err) {}
         if (!isMatch) {
           return res.status(401).send('Invalid email or password')
         }
-        return res.send({
-          token: generateToken(user),
-          user: user.toJSON()
+        return res.status(200).json({
+          token: generateToken(user)
         })
       })
     })
@@ -85,8 +85,7 @@ router.post('/register', function (req, res, next) {
   }).save()
     .then(function (user) {
       return res.status(200).json({
-        token: generateToken(user),
-        user: user
+        token: generateToken(user)
       })
     })
     .catch(function (err) {
@@ -201,11 +200,15 @@ router.post('/reset/:token', function (req, res) {
       user.set('passwordResetToken', null)
       user.set('passwordResetExpires', null)
       user.save()
-   
+
       return res.status(200).send({
         msg: 'Password updated successfully'
       })
     })
+})
+
+router.post('/logout', function (req, res, next) {
+  res.json({ status: 'OK' })
 })
 
 module.exports = router
