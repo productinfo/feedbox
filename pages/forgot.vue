@@ -5,7 +5,13 @@
           <div class="text-center">
             <h1 class="h2">Forgot password</h1>
             <p class="lead">Enter your email address to reset</p>
-            <form>
+            <div class="alert alert-success" role="alert" v-if="success">
+              {{ success }}
+            </div>
+            <div class="alert alert-error" role="alert" v-if="error">
+              {{ error }}
+            </div>
+            <form v-on:submit.prevent="forgot">
               <div class="form-group">
                 <input class="form-control" type="email" placeholder="Email" v-model="user.email">
               </div>
@@ -23,9 +29,22 @@ export default {
   },
   data () {
     return {
+      error: null,
+      success: null,
       user: {
         email: null
       }
+    }
+  },
+  methods: {
+    forgot () {
+      this.$axios.$post('/api/forgot', {
+        email: this.user.email
+      }).then(data => {
+        this.success = data.msg
+      }).catch(e => {
+        this.error = e.response.data.msg
+      })
     }
   }
 }

@@ -5,6 +5,9 @@
           <div class="text-center">
             <h1 class="h2">Create account</h1>
             <p class="lead">Create account to start reading news</p>
+            <div class="alert alert-danger" role="alert" v-if="error">
+              {{ error }}
+            </div>
             <form v-on:submit.prevent="register">
               <div class="form-group">
                 <input class="form-control" type="text" placeholder="Name" v-model="user.name">
@@ -51,17 +54,15 @@ export default {
         name: this.user.name,
         email: this.user.email,
         password: this.user.password
-      })
-        .catch(e => {
-          this.error = e.response.data.msg
-          return
+      }).then(data => {
+        return this.$auth.loginWith('local', {
+          data: {
+            email: this.user.email,
+            password: this.user.password
+          }
         })
-
-      return this.$auth.loginWith('local', {
-        data: {
-          email: this.user.email,
-          password: this.user.password
-        }
+      }).catch(e => {
+        this.error = e.response.data.msg
       })
     }
   }
