@@ -2,14 +2,15 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-xl-5 col-lg-6 col-md-7">
-          <div class="text-center">
-            <h1 class="h2">Forgot password</h1>
-            <p class="lead">Enter your email address to reset</p>
+            <h1 class="h2 text-center">Forgot password</h1>
+            <p class="lead text-center">Enter your email address to reset</p>
             <div class="alert alert-success" role="alert" v-if="success">
               {{ success }}
             </div>
-            <div class="alert alert-error" role="alert" v-if="error">
-              {{ error }}
+            <div class="alert alert-danger" role="alert" v-if="error">
+              <ul class="mb-0">
+                <li v-for="message in error">{{ message.msg }}</li>
+              </ul>
             </div>
             <form v-on:submit.prevent="forgot">
               <div class="form-group">
@@ -17,7 +18,6 @@
               </div>
               <button class="btn btn-md btn-block btn-primary mb-2" role="button" type="submit">Send reset link</button>
             </form>
-          </div>
         </div>
       </div>
     </div>
@@ -38,12 +38,14 @@ export default {
   },
   methods: {
     forgot () {
+      this.error = null
+      this.success = null
       this.$axios.$post('/api/forgot', {
         email: this.user.email
       }).then(data => {
         this.success = data.msg
       }).catch(e => {
-        this.error = e.response.data.msg
+        this.error = e.response.data
       })
     }
   }

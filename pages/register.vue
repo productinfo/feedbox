@@ -2,11 +2,12 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-xl-5 col-lg-6 col-md-7">
-          <div class="text-center">
-            <h1 class="h2">Create account</h1>
-            <p class="lead">Create account to start reading news</p>
+            <h1 class="h2 text-center">Create account</h1>
+            <p class="lead text-center">Create account to start reading news</p>
             <div class="alert alert-danger" role="alert" v-if="error">
-              {{ error }}
+              <ul class="mb-0">
+                <li v-for="message in error">{{ message.msg }}</li>
+              </ul>
             </div>
             <form v-on:submit.prevent="register">
               <div class="form-group">
@@ -28,7 +29,6 @@
                 By clicking 'Create Account' you agree to our <a href="#">Terms of Use</a>
               </small>
             </form>
-          </div>
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@ export default {
           }
         })
       }).catch(e => {
-        this.error = e.response.data.msg
+        this.error = e.response.data
       })
     }
   }

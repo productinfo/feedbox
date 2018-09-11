@@ -48,14 +48,20 @@ router.post('/login', function (req, res, next) {
     .fetch()
     .then(function (user) {
       if (!user) {
-        return res.status(401).send({
-          msg: `The email address ${req.body.email} is not associated with any account. Please double check your email address and try again`
-        })
+        return res.status(401).send([
+          {
+            msg: `The email address ${req.body.email} is not associated with any account. Please double check your email address and try again`
+          }
+        ])
       }
       user.comparePassword(req.body.password, function (err, isMatch) {
         if (err) {}
         if (!isMatch) {
-          return res.status(401).send('Invalid email or password')
+          return res.status(401).send([
+            {
+              msg: 'Invalid email or password'
+            }
+          ])
         }
         return res.status(200).json({
           token: generateToken(user)
@@ -90,9 +96,9 @@ router.post('/register', function (req, res, next) {
     })
     .catch(function (err) {
       if (err.code === 'ER_DUP_ENTRY') {
-        return res.status(400).send(
+        return res.status(400).send([
           { msg: 'The email address you have entered is already associated with another account.' }
-        )
+        ])
       }
     })
 })
@@ -113,9 +119,9 @@ router.post('/forgot', function (req, res, next) {
     .fetch()
     .then(function (user) {
       if (!user) {
-        return res.status(404).send({
+        return res.status(404).send([{
           msg: 'Email not found in database'
-        })
+        }])
       }
       const token = crypto.randomBytes(10).toString('hex')
       user.set('passwordResetToken', token)
@@ -148,9 +154,11 @@ router.post('/forgot', function (req, res, next) {
         })
       }).catch(function (err) {
         if (err) {
-          return res.status(400).send({
-            msg: 'Oops there was some problem'
-          })
+          return res.status(400).send([
+            {
+              msg: 'Oops there was some problem'
+            }
+          ])
         }
       })
     })
@@ -191,9 +199,11 @@ router.post('/reset/:token', function (req, res) {
   }).fetch()
     .then(function (user) {
       if (!user) {
-        return res.status(400).send({
-          msg: 'Reset password token expired'
-        })
+        return res.status(400).send([
+          {
+            msg: 'Reset password token expired'
+          }
+        ])
       }
 
       user.set('password', req.body.password)
