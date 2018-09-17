@@ -20,7 +20,7 @@
                 <input class="form-control" type="password" placeholder="Password" v-model="user.password">
                 <div class="text-left mt-2">
                   <small>
-                    Your password should be at least 8 characters
+                    Your password should be at least 6 characters
                   </small>
                 </div>
               </div>
