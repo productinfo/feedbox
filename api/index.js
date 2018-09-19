@@ -22,6 +22,7 @@ app.use(expressValidator())
 // Require API routes
 const users = require('./routes/users')
 const auth = require('./routes/auth')
+const feeds = require('./routes/feeds')
 
 // JWT middleware
 app.use(
@@ -40,6 +41,7 @@ app.use(
 // Import API Routes
 app.use(users)
 app.use(auth)
+app.use(feeds)
 
 // Error handler
 app.use((err, req, res, next) => {
