@@ -1,23 +1,32 @@
 <template>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-xl-5 col-lg-6 col-md-7">
-            <h1 class="h2 text-center">Reset password</h1>
-            <p class="lead text-center">Please enter new password</p>
-            <div class="alert alert-danger" role="alert" v-if="error">
-              <ul class="mb-0">
-                <li v-for="message in error">{{ message.msg }}</li>
-              </ul>
-            </div>
-            <form v-on:submit.prevent="reset">
-              <div class="form-group">
-                <input class="form-control" type="password" placeholder="Enter new password" v-model="user.newpassword">
-              </div>
-              <button class="btn btn-md btn-block btn-primary mb-2" role="button" type="submit">Reset</button>
-            </form>
+  <div class="col-md-8 col-lg-7 col-xl-6 offset-md-2 offset-lg-2 offset-xl-2 offset-xl-3 u-space-3 u-space-0-lg">
+    <form class="mt-5" v-on:submit.prevent="reset">
+      <div class="mb-7">
+        <h2 class="h3 text-primary font-weight-normal mb-3">
+          Reset password
+        </h2>
+        <p>Please enter new password.</p>
+        <div class="alert alert-danger" role="alert" v-if="error">
+          <ul class="mb-0">
+            <li v-for="message in error" :key="message.msg">{{ message.msg }}</li>
+          </ul>
         </div>
       </div>
-    </div>
+      <div class="mb-4">
+        <label class="h6 small d-block text-uppercase">New Password</label>
+        <div class="input-group u-form">
+          <input type="password" class="form-control" name="email" v-model="user.newpassword">
+        </div>
+      </div>
+      <div class="row align-items-center mb-5">
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">
+            Reset
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
 </template>
 <script>
 export default {

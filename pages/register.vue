@@ -1,37 +1,48 @@
 <template>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-xl-5 col-lg-6 col-md-7">
-            <h1 class="h2 text-center">Create account</h1>
-            <p class="lead text-center">Create account to start reading news</p>
-            <div class="alert alert-danger" role="alert" v-if="error">
-              <ul class="mb-0">
-                <li v-for="message in error">{{ message.msg }}</li>
-              </ul>
-            </div>
-            <form v-on:submit.prevent="register">
-              <div class="form-group">
-                <input class="form-control" type="text" placeholder="Name" v-model="user.name">
-              </div>
-              <div class="form-group">
-                <input class="form-control" type="email" placeholder="Email" v-model="user.email">
-              </div>
-              <div class="form-group">
-                <input class="form-control" type="password" placeholder="Password" v-model="user.password">
-                <div class="text-left mt-2">
-                  <small>
-                    Your password should be at least 6 characters
-                  </small>
-                </div>
-              </div>
-              <button class="btn btn-md btn-block btn-primary mb-2" role="button" type="submit">Create account</button>
-              <small>
-                By clicking 'Create Account' you agree to our <a href="#">Terms of Use</a>
-              </small>
-            </form>
+  <div class="col-md-8 col-lg-7 col-xl-6 offset-md-2 offset-lg-2 offset-xl-2 offset-xl-3 u-space-3 u-space-0-lg">
+    <form class="mt-5" v-on:submit.prevent="register">
+      <div class="mb-7">
+        <h2 class="h3 text-primary font-weight-normal mb-2">
+          Welcome to <span class="font-weight-bold logo-text">Feedbox</span>
+        </h2>
+        <p>Fill out form to get started.</p>
+        <div class="alert alert-danger" role="alert" v-if="error">
+          <ul class="mb-0">
+            <li v-for="message in error" :key="message.msg">{{ message.msg }}</li>
+          </ul>
         </div>
       </div>
-    </div>
+      <div class="mb-4">
+        <label class="h6 small d-block text-uppercase">Name</label>
+        <div class="input-group u-form">
+          <input type="text" class="form-control" name="name" v-model="user.name">
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="h6 small d-block text-uppercase">Email address</label>
+        <div class="input-group u-form">
+          <input type="email" class="form-control" name="email" v-model="user.email">
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="h6 small d-block text-uppercase">Password</label>
+        <div class="input-group u-form">
+          <input type="password" class="form-control" name="password" v-model="user.password">
+        </div>
+      </div>
+      <div class="row align-items-center mb-5">
+        <div class="col-7">
+          <span class="small text-muted">Already have an account?</span>
+          <nuxt-link class="small u-link-muted" to="/login"> Login</nuxt-link>
+        </div>
+        <div class="col-5 text-right">
+          <button type="submit" class="btn btn-primary">
+            Register
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
 </template>
 <script>
 export default {
