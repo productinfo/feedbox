@@ -2,7 +2,7 @@
 exports.up = (knex, Promise) => {
   return knex.schema.createTable('entries', (table) => {
     table.increments()
-    table.uuid('uuid')
+    table.uuid('uuid').defaultTo(knex.raw('uuid()'))
     table.string('title')
     table.string('author').nullable()
     table.string('summary').nullable()

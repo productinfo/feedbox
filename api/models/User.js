@@ -1,8 +1,8 @@
 var bcrypt = require('bcryptjs')
 var bookshelf = require('../bookshelf')
-var Feed = require('./Feed')
-var Favourite = require('./Favourite')
-var Read = require('./Read')
+require('./Feed')
+require('./Favourite')
+require('./Read')
 
 var User = bookshelf.Model.extend({
   tableName: 'users',
@@ -23,14 +23,14 @@ var User = bookshelf.Model.extend({
     })
   },
   hidden: ['password', 'passwordResetToken', 'passwordResetExpires'],
-  feeds: () => {
-    return this.belongsToMany(Feed)
+  feeds: function () {
+    return this.belongsToMany('Feed')
   },
-  favourites: () => {
-    return this.hasMany(Favourite)
+  favourites: function () {
+    return this.hasMany('Favourite')
   },
-  reads: () => {
-    return this.hasMany(Read)
+  reads: function () {
+    return this.hasMany('Read')
   }
 })
 

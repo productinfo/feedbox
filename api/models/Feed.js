@@ -1,15 +1,15 @@
 var bookshelf = require('../bookshelf')
-var Entry = require('./Entry')
-var User = require('./User')
+require('./Entry')
+require('./User')
 
 var Feed = bookshelf.Model.extend({
   tableName: 'feeds',
   hasTimestamps: true,
-  entries: () => {
-    return this.hasMany(Entry)
+  entries: function () {
+    return this.hasMany('Entry')
   },
-  user: () => {
-    return this.belongsToMany(User)
+  users: function () {
+    return this.belongsToMany('User')
   }
 })
 

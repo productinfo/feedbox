@@ -1,11 +1,11 @@
 var bookshelf = require('../bookshelf')
-var User = require('./User')
+require('./User')
 
 var Read = bookshelf.Model.extend({
   tableName: 'reads',
   hasTimestamps: true,
-  user: () => {
-    return this.belongsTo(User)
+  user: function () {
+    return this.belongsTo('User')
   }
 })
 
