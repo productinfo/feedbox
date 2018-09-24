@@ -20,6 +20,8 @@ const users = require('./routes/users')
 const auth = require('./routes/auth')
 const feeds = require('./routes/feeds')
 const entries = require('./routes/entries')
+const favourites = require('./routes/favourites')
+const reads = require('./routes/reads')
 
 // JWT middleware
 app.use(
@@ -40,6 +42,8 @@ app.use(users)
 app.use(auth)
 app.use(feeds)
 app.use(entries)
+app.use(favourites)
+app.use(reads)
 
 // Error handler
 app.use((err, req, res, next) => {
