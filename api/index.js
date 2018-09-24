@@ -9,10 +9,6 @@ dotenv.config()
 // Create express instnace
 const app = express()
 
-global.App = {}
-
-App.Bookshelf = require('./bookshelf')
-
 // Install middleware
 app.use(cookieParser())
 app.use(bodyParser.json())
@@ -23,6 +19,7 @@ app.use(expressValidator())
 const users = require('./routes/users')
 const auth = require('./routes/auth')
 const feeds = require('./routes/feeds')
+const entries = require('./routes/entries')
 
 // JWT middleware
 app.use(
@@ -42,6 +39,7 @@ app.use(
 app.use(users)
 app.use(auth)
 app.use(feeds)
+app.use(entries)
 
 // Error handler
 app.use((err, req, res, next) => {
